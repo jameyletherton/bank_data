@@ -1,0 +1,35 @@
+---
+title: "Week12_assignment"
+author: "Jamey Etherton"
+date: "Tuesday, April 28, 2015"
+output: html_document
+---
+
+
+```{r}
+library(rmongodb)
+library(knitr)
+
+
+mongodb <- mongo.create(host="127.0.0.1")
+
+(mongo.get.database.collections(mongodb,'test'))
+
+#Get checking accounts only
+
+account <- mongo.bson.from.JSON('{"last_name":"SMITH"}')
+
+data <- mongo.find(mongodb,"test.bank_data", account)
+
+
+
+bank_data.df <- mongo.cursor.to.data.frame(data)
+
+summary(bank_data.df)
+str(bank_data.df)
+
+head(bank_data.df)
+colnames(bank_data.df)
+kable(bank_data.df[c(1,2,3,4,5)], row.names=NA, output=TRUE)
+```
+
